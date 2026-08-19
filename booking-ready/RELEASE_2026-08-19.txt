@@ -1,6 +1,0 @@
-AUMARA booking-ready photo pack release boundary.
-57 unique images after perceptual dedupe.
-GENERAL=28
-CHALET=26
-CHALET_SUPERIOR=3
-Target distribution: Beds24 property 324882 -> Booking.com channel sync.

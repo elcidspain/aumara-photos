@@ -1166,56 +1166,5 @@
       "output_format": "JPEG",
       "source_preserved_byte_for_byte": true
     }
-  ],
-  "perceptual_duplicates_removed": [
-    {
-      "removed": "GENERAL/011_exterior_multi_house_IMG_0005.jpg",
-      "kept": "GENERAL/007_exterior_multi_house_File_022.jpg",
-      "phash_distance": 0,
-      "thumb_mae": 0.4065
-    },
-    {
-      "removed": "GENERAL/012_exterior_multi_house_IMG_0006.jpg",
-      "kept": "GENERAL/010_exterior_multi_house_File_025.jpg",
-      "phash_distance": 0,
-      "thumb_mae": 0.4814
-    },
-    {
-      "removed": "GENERAL/013_exterior_multi_house_IMG_0007.jpg",
-      "kept": "GENERAL/009_exterior_multi_house_File_024.jpg",
-      "phash_distance": 0,
-      "thumb_mae": 0.4909
-    },
-    {
-      "removed": "GENERAL/014_exterior_multi_house_IMG_0011.jpg",
-      "kept": "GENERAL/008_exterior_multi_house_File_023.jpg",
-      "phash_distance": 0,
-      "thumb_mae": 0.4339
-    },
-    {
-      "removed": "GENERAL/015_exterior_multi_house_IMG_0012.jpg",
-      "kept": "GENERAL/006_exterior_multi_house_File_021.jpg",
-      "phash_distance": 0,
-      "thumb_mae": 0.3943
-    },
-    {
-      "removed": "GENERAL/019_exterior_patios_IMG_0009.jpg",
-      "kept": "GENERAL/018_exterior_patios_File_0191.jpg",
-      "phash_distance": 0,
-      "thumb_mae": 0.3877
-    }
-  ],
-  "output_items_after_perceptual_dedupe": 57,
-  "category_counts_after_perceptual_dedupe": {
-    "GENERAL": 28,
-    "CHALET": 26,
-    "CHALET_SUPERIOR": 3
-  },
-  "perceptual_dedupe_policy": {
-    "scope": "within same booking category only",
-    "phash": "256-bit pHash distance <= 2",
-    "aspect_ratio_delta": "<= 0.001",
-    "64x64_rgb_thumbnail_mae": "<= 2.0 on 0..255 scale",
-    "intent": "remove only visually equivalent re-encodes; preserve alternate compositions"
-  }
+  ]
 }

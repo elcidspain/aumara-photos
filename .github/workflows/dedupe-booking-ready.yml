@@ -1,0 +1,125 @@
+name: Deduplicate AUMARA booking photo pack
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/dedupe-booking-ready.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  dedupe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Conservative perceptual dedupe
+        shell: bash
+        run: |
+          python -m pip install --disable-pip-version-check pillow imagehash numpy
+          python - <<'PY'
+          from pathlib import Path
+          import json, math, hashlib
+          import numpy as np
+          from PIL import Image
+          import imagehash
+
+          root=Path('booking-ready')
+          cats=('GENERAL','CHALET','CHALET_SUPERIOR')
+          manifest=json.load(open(root/'manifest.json',encoding='utf-8'))
+          item_by_output={x['output_path']:x for x in manifest['items']}
+          removed=[]
+
+          def features(p):
+              with Image.open(p) as im:
+                  im=im.convert('RGB')
+                  w,h=im.size
+                  ph=imagehash.phash(im,hash_size=16)
+                  thumb=np.asarray(im.resize((64,64),Image.Resampling.LANCZOS),dtype=np.float32)
+                  return w,h,ph,thumb
+
+          for cat in cats:
+              kept=[]
+              files=sorted((root/cat).glob('*.jpg'))
+              for p in files:
+                  w,h,ph,thumb=features(p)
+                  dup=None
+                  metrics=None
+                  for kp,kw,kh,kph,kthumb in kept:
+                      if abs((w/h)-(kw/kh)) > 0.001:
+                          continue
+                      hd=ph-kph
+                      if hd > 2:
+                          continue
+                      mae=float(np.mean(np.abs(thumb-kthumb)))
+                      # Deliberately strict: only re-encodes / effectively same frame.
+                      if mae <= 2.0:
+                          dup=kp
+                          metrics={'phash_distance':int(hd),'thumb_mae':round(mae,4)}
+                          break
+                  if dup is None:
+                      kept.append((p,w,h,ph,thumb))
+                  else:
+                      rel=str(p.relative_to(root))
+                      duprel=str(dup.relative_to(root))
+                      removed.append({'removed':rel,'kept':duprel,**metrics})
+                      p.unlink()
+
+          remaining=[]
+          for cat in cats:
+              remaining += [str(p.relative_to(root)) for p in sorted((root/cat).glob('*.jpg'))]
+
+          manifest['perceptual_duplicates_removed']=removed
+          manifest['output_items_after_perceptual_dedupe']=len(remaining)
+          manifest['category_counts_after_perceptual_dedupe']={cat:len(list((root/cat).glob('*.jpg'))) for cat in cats}
+          manifest['perceptual_dedupe_policy']={
+              'scope':'within same booking category only',
+              'phash':'256-bit pHash distance <= 2',
+              'aspect_ratio_delta':'<= 0.001',
+              '64x64_rgb_thumbnail_mae':'<= 2.0 on 0..255 scale',
+              'intent':'remove only visually equivalent re-encodes; preserve alternate compositions'
+          }
+          (root/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          (root/'DEDUPE_STATUS.txt').write_text(json.dumps({
+              'before':manifest['output_items'],
+              'after':len(remaining),
+              'removed_count':len(removed),
+              'counts':manifest['category_counts_after_perceptual_dedupe'],
+              'removed':removed
+          },ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print('DEDUPE_OK',len(remaining),len(removed),manifest['category_counts_after_perceptual_dedupe'])
+          PY
+      - name: Verify and commit
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from PIL import Image
+          root=Path('booking-ready')
+          m=json.load(open(root/'manifest.json'))
+          counts={c:len(list((root/c).glob('*.jpg'))) for c in ('GENERAL','CHALET','CHALET_SUPERIOR')}
+          assert counts==m['category_counts_after_perceptual_dedupe']
+          assert sum(counts.values())==m['output_items_after_perceptual_dedupe']
+          for c in counts:
+              for p in (root/c).glob('*.jpg'):
+                  with Image.open(p) as im:
+                      assert im.format=='JPEG'
+          print('VERIFY_DEDUPE_OK',counts)
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add booking-ready
+          if git diff --cached --quiet; then
+            exit 0
+          fi
+          git commit -m 'Deduplicate AUMARA booking-ready photo pack [skip ci]'
+          git pull --rebase origin main
+          git push origin HEAD:main

@@ -1,0 +1,203 @@
+name: Build AUMARA Booking Ready Photo Pack
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/build-booking-ready.yml"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: aumara-booking-ready-pack
+  cancel-in-progress: true
+
+jobs:
+  build-pack:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install image/download dependencies
+        run: python -m pip install --disable-pip-version-check gdown pillow
+
+      - name: Materialize authoritative 63-photo source map
+        shell: bash
+        run: |
+          cat > /tmp/aumara_source_map.json.gz.b64 <<'B64'
+          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
+          B64
+          base64 -d /tmp/aumara_source_map.json.gz.b64 | gzip -d > /tmp/aumara_source_map.json
+          python - <<'PY'
+          import json
+          d=json.load(open('/tmp/aumara_source_map.json'))
+          assert len(d['items']) == 63, len(d['items'])
+          assert set(x['bucket'] for x in d['items']) == {'GENERAL','CHALET','CHALET_SUPERIOR'}
+          assert len({x['sha256'] for x in d['items']}) == 63
+          print('SOURCE_MAP_OK', len(d['items']))
+          PY
+
+      - name: Download, normalize, deduplicate and classify full archive
+        shell: bash
+        run: |
+          cat > /tmp/build_booking_pack.py <<'PY'
+          from __future__ import annotations
+          import hashlib, json, pathlib, shutil, subprocess, sys, tempfile, time
+          from collections import Counter
+          from PIL import Image
+
+          ROOT = pathlib.Path('booking-ready')
+          CATEGORIES = ['GENERAL','CHALET','CHALET_SUPERIOR']
+          SOURCE_MAP = json.load(open('/tmp/aumara_source_map.json', encoding='utf-8'))
+
+          if ROOT.exists():
+              shutil.rmtree(ROOT)
+          for cat in CATEGORIES:
+              (ROOT/cat).mkdir(parents=True, exist_ok=True)
+          tmp = pathlib.Path(tempfile.mkdtemp(prefix='aumara-booking-'))
+
+          def sha256_file(path: pathlib.Path) -> str:
+              h=hashlib.sha256()
+              with path.open('rb') as f:
+                  for chunk in iter(lambda: f.read(1024*1024), b''):
+                      h.update(chunk)
+              return h.hexdigest()
+
+          def download(item, idx):
+              target=tmp/f'{idx:03d}_{item["filename"].replace("/","_")}'
+              cmd=[sys.executable,'-m','gdown','--id',item['drive_id'],'-O',str(target)]
+              for attempt in range(1,4):
+                  p=subprocess.run(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+                  if p.returncode == 0 and target.exists() and target.stat().st_size:
+                      return target
+                  if target.exists(): target.unlink()
+                  if attempt == 3:
+                      print(p.stdout[-3000:])
+                      raise RuntimeError(f'download failed {item["filename"]} id={item["drive_id"]}')
+                  time.sleep(attempt*2)
+              raise AssertionError('unreachable')
+
+          role_order = {
+              'site_landscape':0,'exterior_multi_house':1,'exterior_patios':2,'exterior_single_house':3,
+              'night_ambience':4,'night_exterior':5,
+              'interior_living':0,'interior_bed':1,'interior_kitchen':2,'interior_dining_kitchen':3,
+              'interior_dining':4,'interior_glazing':5,'interior_transition':6,'interior_bath':7,
+          }
+          indexed=list(enumerate(SOURCE_MAP['items']))
+          indexed.sort(key=lambda pair:(CATEGORIES.index(pair[1]['bucket']), role_order.get(pair[1]['role'],99), pair[0]))
+
+          seen_pixel_hash={}
+          seen_source_sha={}
+          seq=Counter()
+          outputs=[]
+          duplicates=[]
+
+          for source_index, item in indexed:
+              src=download(item, source_index)
+              actual_size=src.stat().st_size
+              actual_sha=sha256_file(src)
+              if actual_sha != item['sha256']:
+                  raise RuntimeError(f'SHA mismatch {item["filename"]} expected={item["sha256"]} got={actual_sha}')
+              if actual_size != item['bytes']:
+                  raise RuntimeError(f'byte mismatch {item["filename"]} expected={item["bytes"]} got={actual_size}')
+
+              with Image.open(src) as im:
+                  im.load()
+                  width,height=im.size
+                  if (width,height) != (item['width'],item['height']):
+                      raise RuntimeError(f'dimension mismatch {item["filename"]} expected={item["width"]}x{item["height"]} got={width}x{height}')
+                  rgb = im.convert('RGB')
+                  pixel_sha=hashlib.sha256(width.to_bytes(4,'big')+height.to_bytes(4,'big')+rgb.tobytes()).hexdigest()
+
+                  duplicate_of = seen_pixel_hash.get(pixel_sha) or seen_source_sha.get(actual_sha)
+                  if duplicate_of:
+                      duplicates.append({'filename':item['filename'],'bucket':item['bucket'],'source_sha256':actual_sha,'duplicate_of':duplicate_of,'reason':'identical_decoded_pixels_or_source_sha'})
+                      continue
+
+                  seq[item['bucket']] += 1
+                  safe_stem=pathlib.Path(item['filename']).stem.replace(' ','_').replace('(','').replace(')','')
+                  role=item['role'].replace('/','_')
+                  out_name=f'{seq[item["bucket"]]:03d}_{role}_{safe_stem}.jpg'
+                  out=ROOT/item['bucket']/out_name
+                  suffix=src.suffix.lower()
+                  if suffix in ('.jpg','.jpeg'):
+                      shutil.copyfile(src,out)
+                  else:
+                      rgb.save(out, format='JPEG', quality=96, subsampling=0, optimize=True)
+
+              with Image.open(out) as check:
+                  out_dims=check.size
+                  out_format=check.format
+              if out_dims != (item['width'],item['height']):
+                  raise RuntimeError(f'output dimension changed {item["filename"]} -> {out_dims}')
+              if out_format != 'JPEG':
+                  raise RuntimeError(f'output is not JPEG {out} format={out_format}')
+
+              output_sha=sha256_file(out)
+              seen_pixel_hash[pixel_sha]=f'{item["bucket"]}/{out_name}'
+              seen_source_sha[actual_sha]=f'{item["bucket"]}/{out_name}'
+              outputs.append({**item,'output_path':f'{item["bucket"]}/{out_name}','output_sha256':output_sha,'output_bytes':out.stat().st_size,'output_width':out_dims[0],'output_height':out_dims[1],'output_format':'JPEG','source_preserved_byte_for_byte': suffix in ('.jpg','.jpeg')})
+
+          counts=Counter(x['bucket'] for x in outputs)
+          if sum(counts.values()) + len(duplicates) != 63:
+              raise RuntimeError('archive accounting mismatch')
+          if set(counts)-set(CATEGORIES):
+              raise RuntimeError('unexpected category')
+
+          final_manifest={'schema':'aumara.booking-ready.pack','version':'1.0.0','source_archives':SOURCE_MAP['source_archives'],'source_items':63,'output_items':len(outputs),'duplicates_removed':len(duplicates),'category_counts':dict(counts),'policy':{'categories':CATEGORIES,'resolution':'pixel dimensions preserved; no resize/downscale','jpeg_sources':'copied byte-for-byte','png_sources':'RGB JPEG quality 96, 4:4:4; same pixel dimensions','dedup':'exact source SHA or exact decoded RGB pixel hash only'},'duplicates':duplicates,'items':outputs}
+          (ROOT/'manifest.json').write_text(json.dumps(final_manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          (ROOT/'source-map.json').write_text(json.dumps(SOURCE_MAP,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          (ROOT/'README.txt').write_text('AUMARA BOOKING READY PHOTO PACK\nGENERAL / CHALET / CHALET_SUPERIOR\nAll output files: JPEG. Pixel dimensions preserved. No resizing/downscaling.\n'+f'Source items: 63; outputs: {len(outputs)}; exact duplicates removed: {len(duplicates)}.\n',encoding='utf-8')
+          print('PACK_OK', json.dumps({'source':63,'outputs':len(outputs),'duplicates':len(duplicates),'counts':dict(counts)},sort_keys=True))
+          PY
+          python /tmp/build_booking_pack.py
+
+      - name: Verify pack invariants
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json, pathlib
+          from PIL import Image
+          root=pathlib.Path('booking-ready')
+          m=json.load(open(root/'manifest.json'))
+          assert m['source_items'] == 63
+          assert m['output_items'] + m['duplicates_removed'] == 63
+          assert set(m['category_counts']) <= {'GENERAL','CHALET','CHALET_SUPERIOR'}
+          actual=[]
+          for cat in ('GENERAL','CHALET','CHALET_SUPERIOR'):
+              files=sorted((root/cat).glob('*.jpg'))
+              assert len(files) == m['category_counts'].get(cat,0), (cat,len(files),m['category_counts'])
+              for f in files:
+                  with Image.open(f) as im:
+                      assert im.format == 'JPEG'
+                  actual.append(f)
+          assert len(actual) == m['output_items']
+          for item in m['items']:
+              p=root/item['output_path']
+              with Image.open(p) as im:
+                  assert list(im.size) == [item['width'],item['height']], (p,im.size,item['width'],item['height'])
+          print('VERIFY_OK', m['category_counts'], 'duplicates_removed', m['duplicates_removed'])
+          PY
+
+      - name: Commit full categorized pack
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add booking-ready
+          if git diff --cached --quiet; then
+            echo "No pack changes"
+            exit 0
+          fi
+          git commit -m "Build full AUMARA Beds24 Booking photo pack [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main

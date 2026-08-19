@@ -6,9 +6,13 @@ on:
     branches: [main]
     paths:
       - '.github/beds24-v1.trigger'
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - '.github/beds24-v1-pr.trigger'
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   discover:
@@ -17,14 +21,12 @@ jobs:
     env:
       ALL_SECRETS_JSON: ${{ toJSON(secrets) }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Discover existing Beds24 V1 bindings and content shape
+      - name: Discover existing Beds24 V1 bindings and live content shape
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p booking-ready/_sync
           python3 - <<'PY'
-          import datetime as dt, json, os, urllib.request, urllib.error
+          import json, os, urllib.request, urllib.error
 
           secrets=json.loads(os.environ.get('ALL_SECRETS_JSON') or '{}')
           names=sorted(secrets)
@@ -40,62 +42,38 @@ jobs:
               return out
 
           api_names=pick('api'); prop_names=pick('prop')
-          r={
-            'schema':'aumara.beds24-v1-discovery',
-            'checked_at_utc':dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat().replace('+00:00','Z'),
-            'api_key_secret_names':api_names,
-            'prop_key_secret_names':prop_names,
-            'secret_values_exposed':False,
-            'target_property_id':324882
-          }
-
-          if len(api_names)==1 and len(prop_names)==1:
-              payload=json.dumps({'authentication':{'apiKey':secrets[api_names[0]].strip(),'propKey':secrets[prop_names[0]].strip()}}).encode()
-              req=urllib.request.Request('https://api.beds24.com/json/getPropertyContent',data=payload,headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':'AUMARA-photo-sync/1.0'},method='POST')
-              try:
-                  with urllib.request.urlopen(req,timeout=45) as resp:
-                      raw=resp.read(); status=int(resp.status)
-              except urllib.error.HTTPError as e:
-                  raw=e.read(); status=int(e.code)
-              except Exception as e:
-                  raw=b''; status=0; r['error_type']=type(e).__name__
-              r['http_status']=status
-              try: body=json.loads(raw.decode('utf-8','replace')) if raw else {}
-              except Exception: body={}
-
-              def safe(x,depth=0):
-                  if depth>8: return '[depth]'
-                  if isinstance(x,dict):
-                      o={}
-                      for k,v in x.items():
-                          kl=str(k).lower()
-                          if any(s in kl for s in ('apikey','propkey','token','password','secret','email','phone','address')): o[str(k)]='[redacted]'
-                          elif isinstance(v,(dict,list)): o[str(k)]=safe(v,depth+1)
-                          elif any(s in kl for s in ('id','name','title','status','picture','image','photo','url','room','property','display')): o[str(k)]=v
-                      return o
-                  if isinstance(x,list): return [safe(v,depth+1) for v in x[:200]]
-                  return x
-
-              r['response_shape']=safe(body)
-              r['status']='LIVE_CONTENT_READ_OK' if 200 <= status < 300 else 'LIVE_CONTENT_READ_FAILED'
-          elif not api_names or not prop_names:
-              r['status']='MISSING_MATCH'
-          else:
-              r['status']='AMBIGUOUS_MATCH'
-
-          open('booking-ready/_sync/BEDS24_V1_DISCOVERY.json','w',encoding='utf-8').write(json.dumps(r,indent=2,ensure_ascii=False)+'\n')
-          print('status='+r['status'])
-          print('api_key_matches='+str(len(api_names)))
-          print('prop_key_matches='+str(len(prop_names)))
+          print('api_key_secret_names='+json.dumps(api_names))
+          print('prop_key_secret_names='+json.dumps(prop_names))
           print('secret_values_exposed=false')
+          if len(api_names)!=1 or len(prop_names)!=1:
+              print('status='+('MISSING_MATCH' if not api_names or not prop_names else 'AMBIGUOUS_MATCH'))
+              raise SystemExit(2)
+
+          payload=json.dumps({'authentication':{'apiKey':secrets[api_names[0]].strip(),'propKey':secrets[prop_names[0]].strip()}}).encode()
+          req=urllib.request.Request('https://api.beds24.com/json/getPropertyContent',data=payload,headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':'AUMARA-photo-sync/1.0'},method='POST')
+          try:
+              with urllib.request.urlopen(req,timeout=45) as resp:
+                  raw=resp.read(); status=int(resp.status)
+          except urllib.error.HTTPError as e:
+              raw=e.read(); status=int(e.code)
+          print('http_status='+str(status))
+          try: body=json.loads(raw.decode('utf-8','replace')) if raw else {}
+          except Exception: body={}
+
+          def safe(x,depth=0):
+              if depth>8: return '[depth]'
+              if isinstance(x,dict):
+                  o={}
+                  for k,v in x.items():
+                      kl=str(k).lower()
+                      if any(s in kl for s in ('apikey','propkey','token','password','secret','email','phone','address')): o[str(k)]='[redacted]'
+                      elif isinstance(v,(dict,list)): o[str(k)]=safe(v,depth+1)
+                      elif any(s in kl for s in ('id','name','title','status','picture','image','photo','url','room','property','display')): o[str(k)]=v
+                  return o
+              if isinstance(x,list): return [safe(v,depth+1) for v in x[:200]]
+              return x
+
+          print('response_shape='+json.dumps(safe(body),ensure_ascii=False,separators=(',',':')))
+          print('status='+('LIVE_CONTENT_READ_OK' if 200 <= status < 300 else 'LIVE_CONTENT_READ_FAILED'))
+          if not 200 <= status < 300: raise SystemExit(3)
           PY
-      - name: Persist sanitized receipt
-        shell: bash
-        run: |
-          set -euo pipefail
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add booking-ready/_sync/BEDS24_V1_DISCOVERY.json
-          git diff --cached --quiet && exit 0
-          git commit -m 'Record Beds24 V1 discovery [skip ci]'
-          git push

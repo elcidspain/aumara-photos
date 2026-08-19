@@ -1,0 +1,79 @@
+name: Diagnose and finish AUMARA booking pack
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-booking-ready-v3.yml'
+permissions:
+  contents: write
+concurrency:
+  group: aumara-booking-ready-v3
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Execute builder with durable diagnostics
+        id: build
+        continue-on-error: true
+        shell: bash
+        run: |
+          set +e
+          : > /tmp/build.log
+          python -m pip install --disable-pip-version-check gdown pillow >>/tmp/build.log 2>&1
+          dep_rc=$?
+          if [ "$dep_rc" -ne 0 ]; then
+            echo "STAGE=DEPENDENCIES RC=$dep_rc" >>/tmp/build.log
+          else
+            python - <<'PY' >>/tmp/build.log 2>&1
+          from pathlib import Path
+          import base64, gzip, re
+          text=Path('.github/workflows/build-booking-ready.yml').read_text(encoding='utf-8')
+          m=re.search(r"cat > /tmp/aumara_source_map\.json\.gz\.b64 <<'B64'\n(.*?)\n\s*B64", text, re.S)
+          if not m: raise SystemExit('source map block not found')
+          b64=''.join(line.strip() for line in m.group(1).splitlines())
+          Path('/tmp/aumara_source_map.json').write_bytes(gzip.decompress(base64.b64decode(b64)))
+          marker="cat > /tmp/build_booking_pack.py <<'PY'\n"
+          start=text.index(marker)+len(marker)
+          end=text.index("\n          PY", start)
+          block=text[start:end]
+          lines=block.splitlines()
+          script='\n'.join(line[10:] if line.startswith('          ') else line for line in lines)+'\n'
+          Path('/tmp/build_booking_pack.py').write_text(script,encoding='utf-8')
+          print('EXTRACT_OK')
+          PY
+            extract_rc=$?
+            if [ "$extract_rc" -eq 0 ]; then
+              python /tmp/build_booking_pack.py >>/tmp/build.log 2>&1
+              build_rc=$?
+            else
+              build_rc=$extract_rc
+            fi
+            echo "STAGE=BUILD RC=$build_rc" >>/tmp/build.log
+          fi
+          tail -c 12000 /tmp/build.log > BUILD_STATUS.txt
+          if [ -f booking-ready/manifest.json ]; then
+            python - <<'PY' >> BUILD_STATUS.txt 2>&1
+          import json
+          m=json.load(open('booking-ready/manifest.json'))
+          print('MANIFEST',json.dumps({'source_items':m['source_items'],'output_items':m['output_items'],'duplicates_removed':m['duplicates_removed'],'category_counts':m['category_counts']},sort_keys=True))
+          PY
+          fi
+      - name: Commit status and pack if built
+        if: always()
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add BUILD_STATUS.txt
+          if [ -d booking-ready ]; then git add booking-ready; fi
+          git commit -m 'AUMARA photo pack build status [skip ci]' || true
+          git pull --rebase origin main
+          git push origin HEAD:main

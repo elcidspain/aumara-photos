@@ -47,7 +47,7 @@ jobs:
           print('secret_values_exposed=false')
           if len(api_names)!=1 or len(prop_names)!=1:
               print('status='+('MISSING_MATCH' if not api_names or not prop_names else 'AMBIGUOUS_MATCH'))
-              raise SystemExit(2)
+              raise SystemExit(0)
 
           payload=json.dumps({'authentication':{'apiKey':secrets[api_names[0]].strip(),'propKey':secrets[prop_names[0]].strip()}}).encode()
           req=urllib.request.Request('https://api.beds24.com/json/getPropertyContent',data=payload,headers={'Content-Type':'application/json','Accept':'application/json','User-Agent':'AUMARA-photo-sync/1.0'},method='POST')

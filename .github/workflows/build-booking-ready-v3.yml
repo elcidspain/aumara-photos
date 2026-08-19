@@ -46,8 +46,12 @@ jobs:
           block=text[start:end]
           lines=block.splitlines()
           script='\n'.join(line[10:] if line.startswith('          ') else line for line in lines)+'\n'
+          old="cmd=[sys.executable,'-m','gdown','--id',item['drive_id'],'-O',str(target)]"
+          new="cmd=[sys.executable,'-m','gdown',item['drive_id'],'-O',str(target)]"
+          if old not in script: raise SystemExit('legacy gdown invocation not found')
+          script=script.replace(old,new,1)
           Path('/tmp/build_booking_pack.py').write_text(script,encoding='utf-8')
-          print('EXTRACT_OK')
+          print('EXTRACT_PATCH_OK')
           PY
             extract_rc=$?
             if [ "$extract_rc" -eq 0 ]; then
@@ -58,7 +62,7 @@ jobs:
             fi
             echo "STAGE=BUILD RC=$build_rc" >>/tmp/build.log
           fi
-          tail -c 12000 /tmp/build.log > BUILD_STATUS.txt
+          tail -c 16000 /tmp/build.log > BUILD_STATUS.txt
           if [ -f booking-ready/manifest.json ]; then
             python - <<'PY' >> BUILD_STATUS.txt 2>&1
           import json

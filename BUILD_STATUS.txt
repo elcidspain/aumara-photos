@@ -1,0 +1,59 @@
+Collecting gdown
+  Downloading gdown-6.1.0-py3-none-any.whl.metadata (8.3 kB)
+Collecting pillow
+  Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+Collecting beautifulsoup4 (from gdown)
+  Downloading beautifulsoup4-4.15.0-py3-none-any.whl.metadata (3.8 kB)
+Collecting filelock (from gdown)
+  Downloading filelock-3.32.3-py3-none-any.whl.metadata (2.0 kB)
+Collecting requests[socks] (from gdown)
+  Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+Collecting tqdm (from gdown)
+  Downloading tqdm-4.70.0-py3-none-any.whl.metadata (57 kB)
+Collecting typing-extensions>=4.0 (from gdown)
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting soupsieve>=1.6.1 (from beautifulsoup4->gdown)
+  Downloading soupsieve-2.9.2-py3-none-any.whl.metadata (4.6 kB)
+Collecting charset_normalizer<4,>=2 (from requests[socks]->gdown)
+  Downloading charset_normalizer-3.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (45 kB)
+Collecting idna<4,>=2.5 (from requests[socks]->gdown)
+  Downloading idna-3.19-py3-none-any.whl.metadata (9.2 kB)
+Collecting urllib3<3,>=1.26 (from requests[socks]->gdown)
+  Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+Collecting certifi>=2023.5.7 (from requests[socks]->gdown)
+  Downloading certifi-2026.7.22-py3-none-any.whl.metadata (2.5 kB)
+Collecting PySocks!=1.5.7,>=1.5.6 (from requests[socks]->gdown)
+  Downloading PySocks-1.7.1-py3-none-any.whl.metadata (13 kB)
+Downloading gdown-6.1.0-py3-none-any.whl (19 kB)
+Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 36.8 MB/s  0:00:00
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading beautifulsoup4-4.15.0-py3-none-any.whl (109 kB)
+Downloading soupsieve-2.9.2-py3-none-any.whl (37 kB)
+Downloading filelock-3.32.3-py3-none-any.whl (98 kB)
+Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+Downloading charset_normalizer-3.5.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (262 kB)
+Downloading idna-3.19-py3-none-any.whl (68 kB)
+Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+Downloading certifi-2026.7.22-py3-none-any.whl (136 kB)
+Downloading PySocks-1.7.1-py3-none-any.whl (16 kB)
+Downloading tqdm-4.70.0-py3-none-any.whl (80 kB)
+Installing collected packages: urllib3, typing-extensions, tqdm, soupsieve, PySocks, pillow, idna, filelock, charset_normalizer, certifi, requests, beautifulsoup4, gdown
+
+Successfully installed PySocks-1.7.1 beautifulsoup4-4.15.0 certifi-2026.7.22 charset_normalizer-3.5.1 filelock-3.32.3 gdown-6.1.0 idna-3.19 pillow-12.3.0 requests-2.34.2 soupsieve-2.9.2 tqdm-4.70.0 typing-extensions-4.16.0 urllib3-2.7.0
+EXTRACT_OK
+usage: __main__.py [-h] [-V] [-O OUTPUT] [-q] [--proxy PROXY] [--speed SPEED]
+                   [--no-cookies] [--no-check-certificate] [--continue]
+                   [--folder] [--json] [--format FORMAT]
+                   [--user-agent USER_AGENT]
+                   url_or_id
+__main__.py: error: unrecognized arguments: --id
+
+Traceback (most recent call last):
+  File "/tmp/build_booking_pack.py", line 53, in <module>
+    src=download(item, source_index)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/build_booking_pack.py", line 33, in download
+    raise RuntimeError(f'download failed {item["filename"]} id={item["drive_id"]}')
+RuntimeError: download failed 08_FULL_no_crop.jpg id=1ZApOyEKgIFnGxn3E4LdE2jx1WVkFhjcT
+STAGE=BUILD RC=1

@@ -1,0 +1,88 @@
+{
+  "schema": "aumara.booking.hero.select",
+  "version": "1.0.0",
+  "locked": "2026-08-20T00:37:06.375613+00:00",
+  "publish_at": "2026-08-20T05:24:00+02:00",
+  "propertyId": 324882,
+  "rooms": {
+    "chalet": 674465,
+    "superior": 674466
+  },
+  "hero": {
+    "main": "booking-select/hero/hero-main-group-houses.jpg",
+    "rule": "день + дома. либо один снизу вверх, либо 3–6 домов. MAIN = группа 4–5 домов с дорожки.",
+    "items": [
+      {
+        "file": "booking-select/hero/hero-main-group-houses.jpg",
+        "role": "MAIN",
+        "why": "4–5 домов, день, снизу с дорожки",
+        "px": [
+          2400,
+          1600
+        ],
+        "bytes": 1417466,
+        "source": "04_FULL_no_crop.jpg"
+      },
+      {
+        "file": "booking-select/hero/hero-group-alt.jpg",
+        "role": "ALT_GROUP",
+        "why": "группа домов днём",
+        "px": [
+          2400,
+          1600
+        ],
+        "bytes": 1432286,
+        "source": "02_FULL_no_crop.jpg"
+      },
+      {
+        "file": "booking-select/hero/hero-group-wide.jpg",
+        "role": "ALT_WIDE",
+        "why": "широкий двор, несколько куполов",
+        "px": [
+          2400,
+          1599
+        ],
+        "bytes": 1179668,
+        "source": "IMG_0005.JPG"
+      },
+      {
+        "file": "booking-select/hero/hero-one-house-below.jpg",
+        "role": "ONE_HOUSE",
+        "why": "один дом близко, снизу вверх",
+        "px": [
+          960,
+          640
+        ],
+        "bytes": 143348,
+        "source": "File_009.png"
+      }
+    ]
+  },
+  "logo": {
+    "png": "booking-select/logo/aumara-logo.png",
+    "jpg": "booking-select/logo/aumara-logo.jpg",
+    "card_3x2": "booking-select/logo/aumara-logo-3x2.jpg"
+  },
+  "corridors": {
+    "returned": true,
+    "ids": [
+      "1B6A9857",
+      "1B6A9861",
+      "1B6A9873"
+    ],
+    "placed_in": [
+      "booking-ready/CHALET_SUPERIOR",
+      "booking-ready/GENERAL",
+      "booking-select/corridors"
+    ]
+  },
+  "beds24": {
+    "v2_includePictures": "empty — no write path on v2 token",
+    "booking_channel": "GET /channels/booking 200",
+    "live_upload": "SCHEDULED_05:24"
+  },
+  "public_urls_after_push": {
+    "hero_main": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-select/hero/hero-main-group-houses.jpg",
+    "logo": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-select/logo/aumara-logo.png"
+  }
+}

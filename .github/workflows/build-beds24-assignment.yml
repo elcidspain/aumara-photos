@@ -1,0 +1,167 @@
+name: Build Beds24 photo assignment plan
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build-beds24-assignment.yml'
+      - 'booking-ready/**'
+      - 'booking-select/BOOKING_HERO.json'
+      - 'booking-select/hero/**'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: beds24-assignment-324882
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build deterministic assignment
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+          from urllib.parse import quote
+          import hashlib, json
+
+          root = Path('.')
+          hero_cfg = json.loads((root/'booking-select/BOOKING_HERO.json').read_text(encoding='utf-8'))
+          property_id = int(hero_cfg['propertyId'])
+          room_standard = int(hero_cfg['rooms']['chalet'])
+          room_superior = int(hero_cfg['rooms']['superior'])
+          raw_base = 'https://raw.githubusercontent.com/elcidspain/aumara-photos/main/'
+
+          def jpgs(folder):
+              return sorted([p for p in (root/folder).glob('*') if p.is_file() and p.suffix.lower() in {'.jpg','.jpeg','.png','.webp'}], key=lambda p: p.name.lower())
+
+          def item(path, role):
+              rel = path.as_posix()
+              url = raw_base + quote(rel, safe='/._-')
+              if len(url) > 250:
+                  raise SystemExit(f'URL_TOO_LONG:{rel}:{len(url)}')
+              data = path.read_bytes()
+              return {
+                  'path': rel,
+                  'url': url,
+                  'role': role,
+                  'bytes': len(data),
+                  'sha256': hashlib.sha256(data).hexdigest(),
+              }
+
+          # Booking-facing property gallery: locked hero sequence first, then strongest existing
+          # GENERAL assets. External-picture channel limit is capped at 20 per target.
+          hero_paths = [root/x['file'] for x in hero_cfg['hero']['items']]
+          for p in hero_paths:
+              if not p.is_file():
+                  raise SystemExit(f'MISSING_HERO:{p}')
+
+          general = jpgs('booking-ready/GENERAL')
+          chalet = jpgs('booking-ready/CHALET')
+          superior = jpgs('booking-ready/CHALET_SUPERIOR')
+
+          # Keep corridors as secondary context: never ahead of exterior/site/general images.
+          general_primary = [p for p in general if not p.name.startswith('00_corridor_')]
+          general_corridors = [p for p in general if p.name.startswith('00_corridor_')]
+          property_paths = (hero_paths + general_primary + general_corridors)[:20]
+
+          # Room galleries use the existing curated bucket order. Standard is capped at 20;
+          # Superior currently fits under the cap, with interiors before corridor context.
+          standard_paths = chalet[:20]
+          superior_primary = [p for p in superior if not p.name.startswith('00_corridor_')]
+          superior_corridors = [p for p in superior if p.name.startswith('00_corridor_')]
+          superior_paths = (superior_primary + superior_corridors)[:20]
+
+          assignment = {
+              'schema': 'aumara.beds24-photo-assignment',
+              'version': '1.0.0',
+              'property_id': property_id,
+              'source_branch': 'main',
+              'policy': {
+                  'external_url_limit_per_target': 20,
+                  'property_hero_locked_first': True,
+                  'logo_in_gallery': False,
+                  'corridors_secondary': True,
+                  'write_mode': 'preserve_unrelated_content_replace_picture_mapping_only',
+              },
+              'sync_order': [
+                  {'target': 'property', 'id': property_id},
+                  {'target': 'room', 'id': room_standard, 'name': 'CHALET'},
+                  {'target': 'room', 'id': room_superior, 'name': 'CHALET_SUPERIOR'},
+              ],
+              'targets': {
+                  'property': {
+                      'id': property_id,
+                      'count': len(property_paths),
+                      'pictures': [item(p, 'PROPERTY') for p in property_paths],
+                  },
+                  'rooms': {
+                      str(room_standard): {
+                          'name': 'CHALET',
+                          'count': len(standard_paths),
+                          'pictures': [item(p, 'ROOM_CHALET') for p in standard_paths],
+                      },
+                      str(room_superior): {
+                          'name': 'CHALET_SUPERIOR',
+                          'count': len(superior_paths),
+                          'pictures': [item(p, 'ROOM_CHALET_SUPERIOR') for p in superior_paths],
+                      },
+                  },
+              },
+              'source_counts': {
+                  'GENERAL': len(general),
+                  'CHALET': len(chalet),
+                  'CHALET_SUPERIOR': len(superior),
+              },
+              'ready_for_beds24_write': True,
+              'booking_sync_after_beds24_verify': True,
+          }
+
+          out = root/'booking-select/BEDS24_ASSIGNMENT.json'
+          out.write_text(json.dumps(assignment, indent=2, ensure_ascii=False)+'\n', encoding='utf-8')
+          print(json.dumps({
+              'property': assignment['targets']['property']['count'],
+              'chalet': assignment['targets']['rooms'][str(room_standard)]['count'],
+              'superior': assignment['targets']['rooms'][str(room_superior)]['count'],
+              'source_counts': assignment['source_counts'],
+          }, ensure_ascii=False))
+          PY
+      - name: Validate assignment invariants
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json
+          p=json.load(open('booking-select/BEDS24_ASSIGNMENT.json',encoding='utf-8'))
+          assert p['property_id']==324882
+          assert list(p['targets']['rooms'])==['674465','674466']
+          assert 1 <= p['targets']['property']['count'] <= 20
+          assert 1 <= p['targets']['rooms']['674465']['count'] <= 20
+          assert 1 <= p['targets']['rooms']['674466']['count'] <= 20
+          assert p['targets']['property']['pictures'][0]['path']=='booking-select/hero/hero-main-group-houses.jpg'
+          urls=[]
+          for x in [p['targets']['property'],*p['targets']['rooms'].values()]:
+              for im in x['pictures']:
+                  assert im['url'].startswith('https://raw.githubusercontent.com/')
+                  assert len(im['url'])<=250
+                  urls.append(im['url'])
+          assert len(urls)==len(set(urls)), 'duplicate target URLs across galleries are allowed semantically but this plan keeps them unique globally'
+          print('ASSIGNMENT_OK')
+          PY
+      - name: Commit assignment
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add booking-select/BEDS24_ASSIGNMENT.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'Record Beds24 photo assignment [skip ci]'
+          git push

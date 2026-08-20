@@ -1,0 +1,380 @@
+{
+  "schema": "aumara.beds24-photo-assignment",
+  "version": "1.0.0",
+  "property_id": 324882,
+  "source_branch": "main",
+  "policy": {
+    "external_url_limit_per_target": 20,
+    "property_hero_locked_first": true,
+    "logo_in_gallery": false,
+    "corridors_secondary": true,
+    "write_mode": "preserve_unrelated_content_replace_picture_mapping_only"
+  },
+  "sync_order": [
+    {
+      "target": "property",
+      "id": 324882
+    },
+    {
+      "target": "room",
+      "id": 674465,
+      "name": "CHALET"
+    },
+    {
+      "target": "room",
+      "id": 674466,
+      "name": "CHALET_SUPERIOR"
+    }
+  ],
+  "targets": {
+    "property": {
+      "id": 324882,
+      "count": 20,
+      "pictures": [
+        {
+          "path": "booking-select/hero/hero-main-group-houses.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-select/hero/hero-main-group-houses.jpg",
+          "role": "PROPERTY",
+          "bytes": 1417466,
+          "sha256": "b8a179e362c33fcc7ad0f5b8a0ecce19bb9a32b04992996bd9bc1fd0cef7ba7a"
+        },
+        {
+          "path": "booking-select/hero/hero-group-alt.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-select/hero/hero-group-alt.jpg",
+          "role": "PROPERTY",
+          "bytes": 1432286,
+          "sha256": "8dbfe5d44de2f15235cd5e70553b6a2c77cd541ccfebf4d26806912b82b108c9"
+        },
+        {
+          "path": "booking-select/hero/hero-group-wide.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-select/hero/hero-group-wide.jpg",
+          "role": "PROPERTY",
+          "bytes": 1179668,
+          "sha256": "a316d85f5be0217a41cee84258c8940c294676a2b33b830f8ad8118735eab8a4"
+        },
+        {
+          "path": "booking-select/hero/hero-one-house-below.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-select/hero/hero-one-house-below.jpg",
+          "role": "PROPERTY",
+          "bytes": 143348,
+          "sha256": "2cf2b001fd11952c68ef91dd92d5ce8540d5e11d9fad36da2c52739f429fa646"
+        },
+        {
+          "path": "booking-ready/GENERAL/001_site_landscape_08_FULL_no_crop.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/001_site_landscape_08_FULL_no_crop.jpg",
+          "role": "PROPERTY",
+          "bytes": 1806827,
+          "sha256": "cc656cfaccb7a81b8030f7ce2ae7751ac807d7fd67f1a14cb35f5e9fbd556665"
+        },
+        {
+          "path": "booking-ready/GENERAL/002_site_landscape_File_0181.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/002_site_landscape_File_0181.jpg",
+          "role": "PROPERTY",
+          "bytes": 438962,
+          "sha256": "3c6f7791efc371cbb94b4333412ee6f56d3371fac0414a013a5852db63f04702"
+        },
+        {
+          "path": "booking-ready/GENERAL/003_exterior_multi_house_02_FULL_no_crop.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/003_exterior_multi_house_02_FULL_no_crop.jpg",
+          "role": "PROPERTY",
+          "bytes": 4920149,
+          "sha256": "3520b82c995f2913e7ca782c125e5617b24d7cd61714e78ee80ae3008552ea4d"
+        },
+        {
+          "path": "booking-ready/GENERAL/004_exterior_multi_house_04_FULL_no_crop.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/004_exterior_multi_house_04_FULL_no_crop.jpg",
+          "role": "PROPERTY",
+          "bytes": 5017736,
+          "sha256": "728d6c75d4dea85c3b6b93928275054b4ac3e80c19522b54d127bb232d213cbd"
+        },
+        {
+          "path": "booking-ready/GENERAL/005_exterior_multi_house_06_FULL_no_crop.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/005_exterior_multi_house_06_FULL_no_crop.jpg",
+          "role": "PROPERTY",
+          "bytes": 4005292,
+          "sha256": "2188177531c5654f22894dd6aa1af771ecf71ccb846721996d8a85da33681172"
+        },
+        {
+          "path": "booking-ready/GENERAL/006_exterior_multi_house_File_021.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/006_exterior_multi_house_File_021.jpg",
+          "role": "PROPERTY",
+          "bytes": 477091,
+          "sha256": "aced410eec09655f3885dfbf227d979a8130c3c2ac8969a39320060c7e4161b7"
+        },
+        {
+          "path": "booking-ready/GENERAL/007_exterior_multi_house_File_022.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/007_exterior_multi_house_File_022.jpg",
+          "role": "PROPERTY",
+          "bytes": 649813,
+          "sha256": "bd292b272665d9fc55dc7930701b5efb30a6910c8d9a6ac1dce0f9244b174587"
+        },
+        {
+          "path": "booking-ready/GENERAL/008_exterior_multi_house_File_023.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/008_exterior_multi_house_File_023.jpg",
+          "role": "PROPERTY",
+          "bytes": 760101,
+          "sha256": "6660bf5eebd7698536d24e0a4fa95403e8bbcb79f69a9e6c1e3f293eea97e22d"
+        },
+        {
+          "path": "booking-ready/GENERAL/009_exterior_multi_house_File_024.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/009_exterior_multi_house_File_024.jpg",
+          "role": "PROPERTY",
+          "bytes": 617514,
+          "sha256": "b49353154c99d2936b41323f51b3317a21e929ee9e1893090d9e40f1af47a2b6"
+        },
+        {
+          "path": "booking-ready/GENERAL/010_exterior_multi_house_File_025.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/010_exterior_multi_house_File_025.jpg",
+          "role": "PROPERTY",
+          "bytes": 764634,
+          "sha256": "53f4978779f4a64bdcedd95d0291daccb4e1df4d4334626d01c8a6d9fc4e5dbd"
+        },
+        {
+          "path": "booking-ready/GENERAL/011_exterior_multi_house_IMG_0005.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/011_exterior_multi_house_IMG_0005.jpg",
+          "role": "PROPERTY",
+          "bytes": 3521326,
+          "sha256": "5559a3502a2d8a7812baddfbc15cc6284dd605d6aa7e52845e6cbd3b3646eeb6"
+        },
+        {
+          "path": "booking-ready/GENERAL/012_exterior_multi_house_IMG_0006.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/012_exterior_multi_house_IMG_0006.jpg",
+          "role": "PROPERTY",
+          "bytes": 4386186,
+          "sha256": "b43ed0465e09fca5f6a8fd2f07d92a198fcca31c7fae792e20f8b56e1db24ff9"
+        },
+        {
+          "path": "booking-ready/GENERAL/013_exterior_multi_house_IMG_0007.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/013_exterior_multi_house_IMG_0007.jpg",
+          "role": "PROPERTY",
+          "bytes": 3093951,
+          "sha256": "75ef558d247a8133866b4a715a1d23b05b80d3abd97e465982bbd34d464a95f4"
+        },
+        {
+          "path": "booking-ready/GENERAL/014_exterior_multi_house_IMG_0011.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/014_exterior_multi_house_IMG_0011.jpg",
+          "role": "PROPERTY",
+          "bytes": 4317611,
+          "sha256": "258870ae2d64b2883d40d1cf4f27f070fd0f01bd1d988e8ea7139305ab991d46"
+        },
+        {
+          "path": "booking-ready/GENERAL/015_exterior_multi_house_IMG_0012.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/015_exterior_multi_house_IMG_0012.jpg",
+          "role": "PROPERTY",
+          "bytes": 2551066,
+          "sha256": "f9c13b8b5d7786e4f19314e8b75efc3c111b42ac9b61157718e178e2050a2fcc"
+        },
+        {
+          "path": "booking-ready/GENERAL/016_exterior_patios_File_013.jpg",
+          "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/GENERAL/016_exterior_patios_File_013.jpg",
+          "role": "PROPERTY",
+          "bytes": 444065,
+          "sha256": "1073987aabb2df10b8f5d43001f6dfea13b63b19dd125ffab424c9c182d77e85"
+        }
+      ]
+    },
+    "rooms": {
+      "674465": {
+        "name": "CHALET",
+        "count": 20,
+        "pictures": [
+          {
+            "path": "booking-ready/CHALET/001_interior_living_1B6A8852.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/001_interior_living_1B6A8852.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 6757048,
+            "sha256": "a3f6868a42006a49f331e6f55c07f2b9c005be71fddc0725588138271d5aeffa"
+          },
+          {
+            "path": "booking-ready/CHALET/002_interior_bed_05_interior_FULL_no_crop.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/002_interior_bed_05_interior_FULL_no_crop.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 313990,
+            "sha256": "e45d0cdd568a11464cab39832eed8ee447ecc48fd07037943280305f116c5850"
+          },
+          {
+            "path": "booking-ready/CHALET/003_interior_bed_1B6A8803.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/003_interior_bed_1B6A8803.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 6514882,
+            "sha256": "ab39fa7b23e3f357859411e58bb618b74f7badde46b7196c9ea74a4123c32f0f"
+          },
+          {
+            "path": "booking-ready/CHALET/004_interior_bed_1B6A8857.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/004_interior_bed_1B6A8857.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 7379655,
+            "sha256": "25e0d8f573a1489516b1ba8e21e2d226d744dba757a310af3b666c421abb9439"
+          },
+          {
+            "path": "booking-ready/CHALET/005_interior_bed_File_0031.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/005_interior_bed_File_0031.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 453003,
+            "sha256": "9125c8f9f0c3591171f80cd8ca25833f5664ebe7f619788b52ba68e79315847d"
+          },
+          {
+            "path": "booking-ready/CHALET/006_interior_bed_File_005.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/006_interior_bed_File_005.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 360565,
+            "sha256": "0639358c8b2cfea669acb5946fbfc16845f95a2cc598a94d6b485dfcf8890fab"
+          },
+          {
+            "path": "booking-ready/CHALET/007_interior_kitchen_1B6A8842.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/007_interior_kitchen_1B6A8842.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 6780554,
+            "sha256": "ed2ef5e7e70ab32a4584e6645beff187c7ed4c967576d515c67c1699e0c9813a"
+          },
+          {
+            "path": "booking-ready/CHALET/008_interior_kitchen_1B6A8845.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/008_interior_kitchen_1B6A8845.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 5997423,
+            "sha256": "aa6b364efa2b2c11235b619ddd75d6e25293f286670c9abf6ceff445b6bc2eba"
+          },
+          {
+            "path": "booking-ready/CHALET/009_interior_kitchen_File_0111.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/009_interior_kitchen_File_0111.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 251651,
+            "sha256": "4d180675a5309e7c6433833c538ba1b5d96bf8c502a3f0b32e1e12cab6221c14"
+          },
+          {
+            "path": "booking-ready/CHALET/010_interior_dining_kitchen_File_020.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/010_interior_dining_kitchen_File_020.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 392217,
+            "sha256": "d6973848ce82bb9f7a22e7b1dbe7c1f97c274f95d7f3a97e428fb3d260ae2cc4"
+          },
+          {
+            "path": "booking-ready/CHALET/011_interior_dining_02_interior_FULL_no_crop.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/011_interior_dining_02_interior_FULL_no_crop.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 454361,
+            "sha256": "a1f1cd1a508ac8a5301a9df1a866750d57be4ce106663defe2aec4f94792fc49"
+          },
+          {
+            "path": "booking-ready/CHALET/012_interior_dining_File_004.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/012_interior_dining_File_004.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 507611,
+            "sha256": "44ece156c537b33835a14696c1c77b5b94fffd09b9dde68b6ce13d5c3b855129"
+          },
+          {
+            "path": "booking-ready/CHALET/013_interior_dining_File_007.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/013_interior_dining_File_007.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 464691,
+            "sha256": "2e7b9fa4d11c37dc9eb6dbfea9daefb6802ca8490e1d5e8ee93aab6ecfe0fe30"
+          },
+          {
+            "path": "booking-ready/CHALET/014_interior_dining_01_interior_FULL_no_crop.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/014_interior_dining_01_interior_FULL_no_crop.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 427498,
+            "sha256": "ada81349553ddb00c6bf57377cd5cef7448fffc01ad0b0ad7fb791f77495fdda"
+          },
+          {
+            "path": "booking-ready/CHALET/015_interior_dining_03_interior_FULL_no_crop.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/015_interior_dining_03_interior_FULL_no_crop.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 404622,
+            "sha256": "c89c20d3411397e1efd215036b7ff00d980a5a1ad4d6390fe660b87c24964642"
+          },
+          {
+            "path": "booking-ready/CHALET/016_interior_dining_File_008.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/016_interior_dining_File_008.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 496736,
+            "sha256": "761887834de75b53232e238cf6f88ef01bb0373debb74c6b31c224f5e282a24c"
+          },
+          {
+            "path": "booking-ready/CHALET/017_interior_dining_File_0101.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/017_interior_dining_File_0101.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 451321,
+            "sha256": "146f00b456551763a47d401914b7c285bcc5436412959325cf9c06731a0fd7cb"
+          },
+          {
+            "path": "booking-ready/CHALET/018_interior_glazing_File_0121.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/018_interior_glazing_File_0121.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 519901,
+            "sha256": "cdc47c849849849da603aa203752a83f91c7d759ed01ee5084bb9369d85383e7"
+          },
+          {
+            "path": "booking-ready/CHALET/019_interior_glazing_06_interior_FULL_no_crop.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/019_interior_glazing_06_interior_FULL_no_crop.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 432164,
+            "sha256": "3af093c4f4149590982a20f2a871fe1b9406d31826f4151a6ea231d193668663"
+          },
+          {
+            "path": "booking-ready/CHALET/020_interior_glazing_File_000.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET/020_interior_glazing_File_000.jpg",
+            "role": "ROOM_CHALET",
+            "bytes": 494443,
+            "sha256": "d0a17d64809b619cbea76514497670cc05d91b3f511f9c790cc3db1bce641360"
+          }
+        ]
+      },
+      "674466": {
+        "name": "CHALET_SUPERIOR",
+        "count": 6,
+        "pictures": [
+          {
+            "path": "booking-ready/CHALET_SUPERIOR/001_interior_bed_1B6A9866.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET_SUPERIOR/001_interior_bed_1B6A9866.jpg",
+            "role": "ROOM_CHALET_SUPERIOR",
+            "bytes": 10482526,
+            "sha256": "152c3e42265e96c3a73e8c3cd7e76b2d669c1389263fa70391ac5f422ab840a2"
+          },
+          {
+            "path": "booking-ready/CHALET_SUPERIOR/002_interior_bed_1B6A9867.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET_SUPERIOR/002_interior_bed_1B6A9867.jpg",
+            "role": "ROOM_CHALET_SUPERIOR",
+            "bytes": 8438782,
+            "sha256": "33b9644378be101ccd99c939f6e4aa88e1d50d109fa7e9c913dedb82d6311764"
+          },
+          {
+            "path": "booking-ready/CHALET_SUPERIOR/003_interior_bed_1B6A9875.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET_SUPERIOR/003_interior_bed_1B6A9875.jpg",
+            "role": "ROOM_CHALET_SUPERIOR",
+            "bytes": 9375389,
+            "sha256": "1aa82b245ce9f0e451e8e4585c7e23b57cf351192d7118c5fd010603a1fb6e5d"
+          },
+          {
+            "path": "booking-ready/CHALET_SUPERIOR/00_corridor_1B6A9857.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET_SUPERIOR/00_corridor_1B6A9857.jpg",
+            "role": "ROOM_CHALET_SUPERIOR",
+            "bytes": 167935,
+            "sha256": "3bcec139afd91f8cdfee6ff55d7065e58249ef2bbe53e8cd36a6d3c2e882cfe6"
+          },
+          {
+            "path": "booking-ready/CHALET_SUPERIOR/00_corridor_1B6A9861.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET_SUPERIOR/00_corridor_1B6A9861.jpg",
+            "role": "ROOM_CHALET_SUPERIOR",
+            "bytes": 163797,
+            "sha256": "169280c915c40172c9f4e8626a169241a6b0e943b55424bf9528fa206bc42956"
+          },
+          {
+            "path": "booking-ready/CHALET_SUPERIOR/00_corridor_1B6A9873.jpg",
+            "url": "https://raw.githubusercontent.com/elcidspain/aumara-photos/main/booking-ready/CHALET_SUPERIOR/00_corridor_1B6A9873.jpg",
+            "role": "ROOM_CHALET_SUPERIOR",
+            "bytes": 223162,
+            "sha256": "e5074e050ba3f8fdd479ade57902c84de7d49c44a50cc81fbb3a61e94e92131f"
+          }
+        ]
+      }
+    }
+  },
+  "source_counts": {
+    "GENERAL": 37,
+    "CHALET": 26,
+    "CHALET_SUPERIOR": 6
+  },
+  "ready_for_beds24_write": true,
+  "booking_sync_after_beds24_verify": true
+}

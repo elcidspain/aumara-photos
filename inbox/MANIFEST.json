@@ -1,0 +1,21 @@
+{
+  "drop": {
+    "name": "00_DROP",
+    "folderId": "1RteiIztTJzfD5ffDRLunvl4NNhhwLKs1",
+    "url": "https://drive.google.com/drive/folders/1RteiIztTJzfD5ffDRLunvl4NNhhwLKs1"
+  },
+  "sort": {
+    "name": "01_SORT",
+    "folderId": "1qXQ02va_zjdQTG1igqEQjmp5rRd-Nqxr",
+    "url": "https://drive.google.com/drive/folders/1qXQ02va_zjdQTG1igqEQjmp5rRd-Nqxr"
+  },
+  "web": {
+    "name": "WEB",
+    "folderId": "1csfG7ehFiNUZEYD75EpEiCqmEsdwbY-b"
+  },
+  "root": {
+    "name": "EL CID",
+    "folderId": "1yyQnYw3p9O744d14wW17ezsBefysPCF8"
+  },
+  "files": []
+}

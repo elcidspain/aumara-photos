@@ -1,0 +1,12 @@
+{
+  "min": 20,
+  "property": 20,
+  "chalet": 20,
+  "superior": 20,
+  "rule": "1B6A88=chalet 1B6A98=superior outdoor=property",
+  "folders": {
+    "property": "https://drive.google.com/drive/folders/1vdi8kxnGc1BCVoAGAZ36KzI-yvsuWyjl",
+    "chalet": "https://drive.google.com/drive/folders/19XopLywoXZ6x_c67q0HPEfg2XdSZk5wF",
+    "superior": "https://drive.google.com/drive/folders/189ezRzUcBwl_sFLNfK9Rq0-oAShpMI3S"
+  }
+}

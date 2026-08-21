@@ -1,0 +1,7 @@
+{
+  "sorted_at_utc": "2026-08-21T21:05:00Z",
+  "keep_canon": 16,
+  "skip": ["telegram", "webp", "MOREPHOTOS File_*.png"],
+  "archive_too_big_here": "drive-download-20260818T214426Z-1-001.zip 358MB",
+  "walk": "NEW_PHOTOS unchanged"
+}
